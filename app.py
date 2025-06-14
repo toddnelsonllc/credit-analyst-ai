@@ -65,7 +65,7 @@ if st.button("Submit") and query.strip():
             final_prompt = query.strip()
 
         response = query_engine.query(final_prompt)
-        answer = clean_response(response.response)
+        answer = response.response
         st.session_state.chat_history.append({"query": query, "response": answer})
 
 # Show chat history
