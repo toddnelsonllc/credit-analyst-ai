@@ -2,5 +2,5 @@
 __pycache__/
 *.pyc
 .vscode/
-storage/
+# storage/
 venv/
