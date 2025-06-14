@@ -16,6 +16,7 @@ Build a GPT-based credit research assistant that:
 - Source documents will be curated and uploaded **only by the project owner** (not end users)
 - Uploaded documents will be **persistently stored**, not ephemeral per session
 - Streamlit will be used as both frontend and backend framework
+- Eventually move vector storage to the cloud (e.g. Weaviate)
 
 ---
 
@@ -23,7 +24,7 @@ Build a GPT-based credit research assistant that:
 
 ### Core Functionality
 
-- `data/` folder to hold static source docs (e.g., 10-Ks)
+- `data/` folder to hold static source docs (e.g., 10-Ks, credit memos, rating reports)
 - `ingest.py` to parse + embed those docs to vector DB
 - `app.py` to:
   - Provide chat interface
@@ -38,7 +39,7 @@ Build a GPT-based credit research assistant that:
 - Streamlit UI with:
   - Title + instructions
   - Prompt field + submit button
-  - Scrollable, auto-height Q&A transcript
+  - Scrollable, auto-height Q&A transcript (most recent at top)
   - Button to download transcript (.txt)
   - Dark, readable answer formatting
 
@@ -46,9 +47,10 @@ Build a GPT-based credit research assistant that:
 
 - LlamaIndex for document loading and vector search
 - GPT-4 via OpenAI API to answer user prompts
-- Persistent `storage/` folder for indexes (excluded from GitHub)
+- Persistent `storage/` folder for indexes (excluded from GitHub for size reasons)
 - In-memory session tracking via `st.session_state`
 - Support for optional external vector DB (e.g. Pinecone, Weaviate)
+- Planned integration with clean, tagged content beyond 10-K/Qs (e.g. credit memos, rating opinions)
 
 ---
 
@@ -61,6 +63,8 @@ Build a GPT-based credit research assistant that:
 - "Summarize the 2024 risk factors."
 - "What do the auditors say about liquidity risk?"
 - "How did private loans change between Q4 and Q1?"
+- "What is their aggregate exposure to BB or below investments?"
+- "What are the notable drivers of Q1 2025 net income versus Q1 2024?"
 
 ---
 
@@ -82,6 +86,8 @@ Build a GPT-based credit research assistant that:
 | ✅ M12     | Ingest full 10-Q and 10-K into clean Markdown + vector store | Day 4       |
 | ☐ M13     | Add Pinecone (Classic) or Weaviate Cloud integration         | Planned     |
 | ☐ M14     | Enable cross-device vector loading via cloud backend         | Planned     |
+| ☐ M15     | Add curated credit memos, rating reports, or stat filings    | Planned     |
+| ☐ M16     | Add vector cleanup tools / selective ingestion filtering     | Planned     |
 
 ---
 
@@ -98,6 +104,12 @@ Build a GPT-based credit research assistant that:
 - ✅ Use `parse_sec_html.py` to convert raw SEC HTML to clean `.md`
 - ✅ Exclude `/storage/` from GitHub repo due to 100MB+ file size
 - 🔜 Explore Rule-Aware RAG with Agent Extensions (e.g., Cursor or LangGraph style)
+- 🔜 Use Weaviate Cloud to persist vector index across machines
+- 🔜 Replace or augment 10-K/Q ingestion with cleaner sources like:
+  - Rating agency credit opinions
+  - Earnings presentations and transcripts
+  - Stat filings (e.g., NAIC Yellow Book)
+  - Internal or synthetic credit memos
 
 ---
 
@@ -110,7 +122,7 @@ credit-analyst-ai/
 ├── app.py              # Streamlit app
 ├── ingest.py           # Embeds source docs
 ├── parse_sec_html.py   # Converts SEC HTML filings to .md
-├── .env                # API key and Pinecone config (local only)
+├── .env                # API key and Pinecone/Weaviate config (local only)
 ├── requirements.txt    # Dependency list
 ├── README.md           # Setup guide
 └── PMD-credit-analyst-ai.md
@@ -132,4 +144,5 @@ Todd Nelson
 | 2025-06-13 | Added chat history, export, and clarified upload model                         |
 | 2025-06-13 | Added toggle for Analyst Mode, text formatting fixes, and ingestion pipeline   |
 | 2025-06-13 | Table rule-aware RAG for future; plan Weaviate integration for cloud-based ops |
+| 2025-06-13 | Added roadmap for cleaner credit data sources beyond 10-K/Q                    |
 
