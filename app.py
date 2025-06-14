@@ -73,7 +73,8 @@ if st.session_state.chat_history:
     st.markdown("### 🧠 Conversation History")
     for i, pair in enumerate(st.session_state.chat_history, 1):
         st.markdown(f"**Q{i}:** {pair['query']}")
-        st.markdown(f"**A{i}:** {pair['response']}")
+        st.markdown(f"**A{i}:**")
+        st.code(pair['response'], language="text")
         st.markdown("---")
 
     # Exportable transcript text
