@@ -29,7 +29,7 @@ index = load_index()
 query_engine = RetrieverQueryEngine.from_args(index.as_retriever())
 
 # App header
-st.title("📊 Credit Analyst AI")
+st.title("Credit Analyst AI")
 st.caption("Ask questions about a company’s credit profile.")
 
 # Session state for chat history
@@ -47,13 +47,13 @@ analyst_prompt = (
     "3. Quantify material shifts in private loans or high-yield categories.\n"
     "4. Use specific numbers, percentages, and trend direction.\n"
     "5. Avoid generic language. Always tie response to actual data when possible.\n"
-)
+)   
 
 # Input box (multiline and resizable)
 query = st.text_area(
     "💬 Enter your question below:",
     height=100,
-    placeholder="e.g. What are the major credit risks?",
+    # placeholder="e.g. What are the major credit risks?",
 )
 
 # Process response
@@ -72,10 +72,9 @@ if st.button("Submit") and query.strip():
 if st.session_state.chat_history:
     st.markdown("### 🧠 Conversation History")
 
-    for i, pair in enumerate(st.session_state.chat_history, 1):
+    for i, pair in enumerate(reversed(st.session_state.chat_history), 1):
         st.markdown(f"**Q{i}:** {pair['query']}")
-
-        # Format the response into HTML with dark font and line breaks
+        st.markdown(f"**A{i}:**")
         st.markdown(
             f"<div style='color:#111111; font-size:16px; font-family:Arial, sans-serif; "
             f"background-color:#f8f9fa; padding:10px; border-radius:5px; border:1px solid #ddd;'>"
@@ -83,7 +82,6 @@ if st.session_state.chat_history:
             f"</div>",
             unsafe_allow_html=True
         )
-
         st.markdown("---")
 
     # Exportable transcript text
