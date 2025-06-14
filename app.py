@@ -71,15 +71,19 @@ if st.button("Submit") and query.strip():
 # Show chat history
 if st.session_state.chat_history:
     st.markdown("### 🧠 Conversation History")
+
     for i, pair in enumerate(st.session_state.chat_history, 1):
         st.markdown(f"**Q{i}:** {pair['query']}")
-        st.text_area(
-            label=f"A{i}:",
-            value=pair['response'],
-            height=120,
-            disabled=True,
-            label_visibility="visible"
+
+        # Format the response into HTML with dark font and line breaks
+        st.markdown(
+            f"<div style='color:#111111; font-size:16px; font-family:Arial, sans-serif; "
+            f"background-color:#f8f9fa; padding:10px; border-radius:5px; border:1px solid #ddd;'>"
+            f"{pair['response'].replace(chr(10), '<br>')}"
+            f"</div>",
+            unsafe_allow_html=True
         )
+
         st.markdown("---")
 
     # Exportable transcript text
