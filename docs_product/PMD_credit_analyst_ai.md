@@ -56,13 +56,10 @@ Build a GPT-based credit research assistant that:
 
 ## 🧪 Test Prompts to Validate MVP
 
-- "Would you lend money to American National Group?"
 - "What are their biggest credit risks?"
 - "How has their statutory surplus changed year over year?"
 - "What is the outlook on their life insurance segment?"
-- "Summarize the 2024 risk factors."
-- "What do the auditors say about liquidity risk?"
-- "How did private loans change between Q4 and Q1?"
+- "How did private loans change quarter over quarter?"
 - "What is their aggregate exposure to BB or below investments?"
 - "What are the notable drivers of Q1 2025 net income versus Q1 2024?"
 
