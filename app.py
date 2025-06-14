@@ -36,6 +36,19 @@ st.caption("Ask questions about a company’s credit profile.")
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
+# Mode selector
+mode = st.radio("Choose AI Mode:", ["🔓 Default GPT", "🧠 Credit Analyst Mode"])
+
+# Reasoning instruction
+analyst_prompt = (
+    "You are a senior credit analyst. When answering questions, do the following:\n"
+    "1. Identify quarter-over-quarter changes in loan exposures or credit quality.\n"
+    "2. Flag increases in BB or below holdings.\n"
+    "3. Quantify material shifts in private loans or high-yield categories.\n"
+    "4. Use specific numbers, percentages, and trend direction.\n"
+    "5. Avoid generic language. Always tie response to actual data when possible.\n"
+)
+
 # Input box (multiline and resizable)
 query = st.text_area(
     "💬 Enter your question below:",
@@ -43,12 +56,16 @@ query = st.text_area(
     placeholder="e.g. What are the major credit risks?",
 )
 
-# Submit button
+# Process response
 if st.button("Submit") and query.strip():
     with st.spinner("Analyzing..."):
-        final_prompt = f"{instruction}\n\nUser: {query.strip()}"
+        if mode == "🧠 Credit Analyst Mode":
+            final_prompt = f"{analyst_prompt}\n\nUser: {query.strip()}"
+        else:
+            final_prompt = query.strip()
+
         response = query_engine.query(final_prompt)
-        answer = response.response
+        answer = clean_response(response.response)
         st.session_state.chat_history.append({"query": query, "response": answer})
 
 # Show chat history
